@@ -5,6 +5,8 @@
  */
 package libreria;
 
+import libreria.servicios.LibreriaServicio;
+
 /**
  *
  * @author Alejandro Birolo
@@ -15,7 +17,18 @@ public class Libreria {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+        try {
+            LibreriaServicio ls = new LibreriaServicio();
+            ls.iniciar();
+        } catch (Exception e) {
+             e.printStackTrace();
+             e.getMessage();
+        }
+        
+        
+        
+        
     }
     
 }

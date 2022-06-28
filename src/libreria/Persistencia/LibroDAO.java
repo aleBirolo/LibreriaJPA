@@ -21,7 +21,7 @@ public final class LibroDAO extends DAO{
             if(libro == null)
                 throw new Exception("Debe indicar un libro");
             
-            if (em.find(Libro.class, libro.getIsbn()) != null )
+            if ( libro.getIsbn() != 0 && em.find(Libro.class, libro.getIsbn()) != null )
                 throw new Exception("El libro ya existe");
             
             super.guardar(libro);

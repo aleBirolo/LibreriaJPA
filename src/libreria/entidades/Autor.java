@@ -35,6 +35,7 @@ public class Autor implements Serializable{
 */
 
     public Autor(String nombre, Boolean alta) {
+        
         this.nombre = nombre;
         this.alta = alta;
     }

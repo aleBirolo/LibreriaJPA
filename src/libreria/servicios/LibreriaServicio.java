@@ -5,6 +5,10 @@
  */
 package libreria.servicios;
 
+import libreria.entidades.Autor;
+import libreria.entidades.Editorial;
+import libreria.entidades.Libro;
+
 /**
  *
  * @author Alejandro Birolo
@@ -21,7 +25,28 @@ public class LibreriaServicio {
         this.libroServ = new LibroServicio();
     }
     
-    
+    public void iniciar() throws Exception{
+        
+        try {
+            /*
+            System.out.println("\nAutor:");
+            Autor autor = autorServ.crearAutor();
+            System.out.println("Autor ingresado: " + autor);
+            
+            System.out.println("\nEditorial:");
+            Editorial editorial = editorialServ.crearEditorial();
+            System.out.println("Editorial ingresado: " + editorial);
+            */
+            System.out.println("\nLibro:");
+            Libro libro = libroServ.crearLibro();
+            System.out.println("Libro ingresado: " + libro);
+            
+            
+        } catch (Exception e) {
+            throw e;
+        }
+        
+    }
     
     
 }

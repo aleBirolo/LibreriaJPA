@@ -26,7 +26,10 @@ public class LibroServicio {
     
     public Libro crearLibro() throws Exception{
         
+        Libro libro = new Libro();
+        
         try {
+            
             teclado = new Scanner(System.in).useDelimiter("\n");
             long isbn=0;
             String titulo;
@@ -56,21 +59,26 @@ public class LibroServicio {
             System.out.print("Ingrese Año del libro: ");
             anio = teclado.nextInt();
             
-            System.out.print("Ingrese Año del libro: ");
-            ejemplares = teclado.nextInt();
+            do
+            {
+                System.out.print("Ingrese la cantidad de ejemplares: ");
+                ejemplares = teclado.nextInt();
+                
+                if (ejemplares < 0)
+                    System.out.println("El numero de ejemplares no puede ser negativo");
+            }while(ejemplares< 0);
             
-            System.out.print("Ingrese la cantidad de ejemplares: ");
-            ejemplares = teclado.nextInt();
+            
             
             do
             {
                 System.out.print("Ingrese la cantidad de ejemplares prestados: ");
                 ejemplaresPrestado = teclado.nextInt();
                 
-                if (ejemplaresPrestado > ejemplares)
+                if (ejemplaresPrestado > ejemplares || ejemplaresPrestado < 0)
                     System.out.println("No puede tener mas ejemplares prestados que la cantidad total de ejemplares fisicos");
                         
-            }while ( ejemplaresPrestado > ejemplares);
+            }while ( ejemplaresPrestado > ejemplares || ejemplaresPrestado < 0);
             
             ejemplaresRestantes = ejemplares - ejemplaresPrestado;
             
@@ -78,42 +86,66 @@ public class LibroServicio {
             {
                 System.out.print("Alta(Y/N): ");
                 bAlta = teclado.next().toUpperCase().charAt(0);
-            }while( bAlta != 'Y' || bAlta!='N');
+            }while( bAlta != 'Y' && bAlta!='N');
             
             if (bAlta=='Y')
                 alta=true;
             else
                 alta=false;
             
+            /// limpieza de buffer
+           // teclado.nextLine();
+            
             do{
-                System.out.println("Desar buscar un autor en la base de datos: (Y/N)");
+                System.out.print("Desar buscar un autor en la base de datos (Y/N): ");
                 opcion = teclado.next().toUpperCase().charAt(0);
-            }while ( opcion != 'Y' || opcion!='N');
+            }while ( opcion != 'Y' && opcion!='N');
+            
+            /// Opcion 1 : Lanzar excepcions 
+            /// Opcion 2 : volver a pedir los ingresos
             
             if ( opcion == 'Y' )
             {
                 System.out.print("Ingrese el codigo del autor a buscar: ");
                 autorId= teclado.nextInt();
                 autor = as.buscarAutorPorCodigo(autorId);
+                
+                if (autor == null)
+                    throw new Exception("El autor no se encontro");
             }
             else
                autor = as.crearAutor(); 
            
             do{
-                System.out.println("Desar buscar una editorial en la base de datos: (Y/N)");
+                System.out.print("Desar buscar una editorial en la base de datos (Y/N): ");
                 opcion = teclado.next().toUpperCase().charAt(0);
-            }while ( opcion != 'Y' || opcion!='N');
+            }while ( opcion != 'Y' && opcion!='N');
             
             if ( opcion == 'Y' )
             {
                 System.out.print("Ingrese el codigo de la editorial a buscar: ");
                 editorialId= teclado.nextInt();
                 editorial = es.buscarEditorialPorCodigo(editorialId);
+                if (editorial == null)
+                    throw new Exception("La editorial no se encontro");
             }
             else
                editorial = es.crearEditorial();
             
-            return new Libro(isbn, titulo, anio, ejemplares, ejemplaresPrestado, ejemplaresRestantes, alta, autor, editorial);
+            
+            libro.setIsbn(isbn);
+            libro.setTitulo(titulo);
+            libro.setAnio(anio);
+            libro.setEjemplares(ejemplares);
+            libro.setEjemplaresPrestados(ejemplaresPrestado);
+            libro.setEjemplaresRestantes(ejemplaresRestantes);
+            libro.setAlta(alta);
+            libro.setAutor(autor);
+            libro.setEditorial(editorial);
+            
+            libroDAO.guardarLibro(libro);
+            
+            return libro;
         } catch (Exception e) {
             throw e;
         }

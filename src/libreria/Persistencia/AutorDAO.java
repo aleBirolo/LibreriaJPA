@@ -21,7 +21,7 @@ public final class AutorDAO extends DAO {
             if(autor == null)
                 throw new Exception("Debe indicar un autor");
             
-            if (em.find(Autor.class, autor.getId()) != null )
+            if ( autor.getId()!=null && em.find(Autor.class, autor.getId()) != null )
                 throw new Exception("El autor ya existe");
             
             super.guardar(autor);
@@ -63,8 +63,9 @@ public final class AutorDAO extends DAO {
         
         try {
             super.conectar();
-            Autor autor = (Autor) em.createQuery("SELECT a FROM Autor a where id = :id").setParameter("id", id).getSingleResult();
-            
+            //Autor autor = (Autor) em.createQuery("SELECT a FROM Autor a WHERE ID = :ID").setParameter("ID", id).getSingleResult();
+            Autor autor =  em.find(Autor.class, id);
+             
             if(autor == null)
                 throw new Exception("No se encontro el autor");
             
@@ -83,7 +84,8 @@ public final class AutorDAO extends DAO {
         
         try {
             super.conectar();
-            Autor autor = (Autor) em.createQuery("SELECT a FROM Autor a where nombre like :nombre").setParameter("nombre", nombre).getSingleResult();
+            //Autor autor = (Autor) em.createQuery("SELECT a FROM Autor a where nombre like :nombre").setParameter("nombre", nombre).getSingleResult();
+            Autor autor =  em.find(Autor.class, nombre);
             
             if(autor == null)
                 throw new Exception("No se encontro el autor");

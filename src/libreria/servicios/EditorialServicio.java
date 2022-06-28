@@ -26,6 +26,7 @@ public class EditorialServicio {
         
         try {
             
+            Editorial editorial;
             teclado = new Scanner(System.in).useDelimiter("\n");
             String nombre;
             char bAlta;
@@ -38,14 +39,17 @@ public class EditorialServicio {
             {
                 System.out.print("Alta(Y/N): ");
                 bAlta = teclado.next().toUpperCase().charAt(0);
-            }while( bAlta != 'Y' || bAlta!='N');
+            }while( bAlta != 'Y' && bAlta!='N');
             
             if (bAlta=='Y')
                 alta=true;
             else
                 alta=false;
             
-            return new Editorial(nombre, alta);
+            editorial = new Editorial(nombre, alta);
+            editorialDAO.guardarEditorial(editorial);
+            
+            return editorial;
             
         } catch (Exception e) {
             throw e;
@@ -53,16 +57,27 @@ public class EditorialServicio {
     }
     
     public Editorial buscarEditorialPorCodigo(Integer id) throws Exception{
+        
+        Editorial editorial= new Editorial();
+        
         try {
-            return null;
+            
+            editorial = editorialDAO.buscarEditorialPorCodigo(id);
+            
+            return editorial;
         } catch (Exception e) {
             throw e;
         }
     }
     
     public Editorial buscarEditorialPorNombre(String nombre)throws Exception{
+        
+        Editorial editorial= new Editorial();
+        
         try {
-            return null;
+            
+            editorial = editorialDAO.buscarEditorialPorNombre(nombre);
+            return editorial;
         } catch (Exception e) {
             throw e;
         }

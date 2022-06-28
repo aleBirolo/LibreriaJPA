@@ -21,7 +21,7 @@ public final class EditorialDAO extends DAO{
             if(editorial == null)
                 throw new Exception("Debe indicar la editorial");
             
-            if (em.find(Editorial.class, editorial.getId()) != null )
+            if ( editorial.getId()!=null && em.find(Editorial.class, editorial.getId()) != null )
                 throw new Exception("La editorial ya existe");
             
             super.guardar(editorial);
@@ -63,7 +63,8 @@ public final class EditorialDAO extends DAO{
         
         try {
             super.conectar();
-            Editorial editorial = (Editorial) em.createQuery("SELECT e FROM Editorial e where id = :id").setParameter("id", id).getSingleResult();
+            //Editorial editorial = (Editorial) em.createQuery("SELECT e FROM Editorial e where id = :id").setParameter("id", id).getSingleResult();
+            Editorial editorial = em.find(Editorial.class, id);
             
             if(editorial == null)
                 throw new Exception("No se encontro la editorial");
@@ -83,8 +84,9 @@ public final class EditorialDAO extends DAO{
         
         try {
             super.conectar();
-            Editorial editorial = (Editorial) em.createQuery("SELECT e FROM Editorial e where nombre like :nombre").setParameter("nombre", nombre).getSingleResult();
-            
+            //Editorial editorial = (Editorial) em.createQuery("SELECT e FROM Editorial e where nombre like :nombre").setParameter("nombre", nombre).getSingleResult();
+            Editorial editorial =  em.find(Editorial.class, nombre);
+                    
             if(editorial == null)
                 throw new Exception("No se encontro la editorial");
             

@@ -24,8 +24,12 @@ public class AutorServicio {
     }
 
     
-    public Autor crearAutor(){
+    public Autor crearAutor() throws Exception{
+        
+        Autor autor= new Autor();
+        
         try {
+            
             
             teclado = new Scanner(System.in).useDelimiter("\n");
             String nombre;
@@ -39,23 +43,34 @@ public class AutorServicio {
             {
                 System.out.print("Alta(Y/N): ");
                 bAlta = teclado.next().toUpperCase().charAt(0);
-            }while( bAlta != 'Y' || bAlta!='N');
+            }while( bAlta != 'Y' && bAlta!='N');
             
             if (bAlta=='Y')
                 alta=true;
             else
                 alta=false;
             
-            return new Autor(nombre, alta);
+            autor.setNombre(nombre);
+            autor.setAlta(alta);
+            
+            
+            autorDao.guardarAutor(autor);
+            
+            return autor;
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             throw e;
         }
     }
     
     public Autor buscarAutorPorCodigo(Integer id) throws Exception{
+        
+        Autor autor = new Autor();
         try {
             
-            return null;
+            autor = autorDao.buscarAutorPorCodigo(id);
+            
+            return autor;
         } catch (Exception e) {
             throw e;
         }
@@ -63,9 +78,11 @@ public class AutorServicio {
     
     public Autor buscarAutorPorNombre(String nombre) throws Exception{
         
+        Autor autor = new Autor();
+        
         try {
-            
-            return null;
+            autor = autorDao.buscarAutorPorNombre(nombre);
+            return autor;
         } catch (Exception e) {
             throw e;
         }
