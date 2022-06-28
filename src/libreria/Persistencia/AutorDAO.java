@@ -5,10 +5,118 @@
  */
 package libreria.Persistencia;
 
+import java.util.Collection;
+import libreria.entidades.Autor;
+
 /**
  *
  * @author Alejandro Birolo
  */
 public final class AutorDAO extends DAO {
+    
+    public void guardarAutor(Autor autor) throws Exception{
+        
+        try {
+            
+            if(autor == null)
+                throw new Exception("Debe indicar un autor");
+            
+            if (em.find(Autor.class, autor.getId()) != null )
+                throw new Exception("El autor ya existe");
+            
+            super.guardar(autor);
+            
+        } catch (Exception e) {
+            throw e;
+        }
+        
+    }
+    
+    public void modificarAutor(Autor autor) throws Exception{
+        
+        try {
+            
+            if(autor == null)
+                throw new Exception("Debe indicar un autor");
+            
+            super.editar(autor);
+            
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    public void eliminarAutor(Autor autor) throws Exception{
+        try {
+            
+            if(autor == null)
+                throw new Exception("Debe indicar un autor");
+            
+            super.eliminar(autor);
+            
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    public Autor buscarAutorPorCodigo(Integer id) throws Exception{
+        
+        try {
+            super.conectar();
+            Autor autor = (Autor) em.createQuery("SELECT a FROM Autor a where id = :id").setParameter("id", id).getSingleResult();
+            
+            if(autor == null)
+                throw new Exception("No se encontro el autor");
+            
+            super.desconectar();
+            return autor;
+            
+        } catch (Exception e) {
+            throw e;
+        }finally{
+            super.desconectar();
+        }
+        
+    }
+    
+    public Autor buscarAutorPorNombre(String nombre)throws Exception{
+        
+        try {
+            super.conectar();
+            Autor autor = (Autor) em.createQuery("SELECT a FROM Autor a where nombre like :nombre").setParameter("nombre", nombre).getSingleResult();
+            
+            if(autor == null)
+                throw new Exception("No se encontro el autor");
+            
+            super.desconectar();
+            return autor;
+            
+        } catch (Exception e) {
+            throw e;
+        }finally{
+            super.desconectar();
+        }
+    }
+    
+    public Collection<Autor> listarAutores() throws Exception{
+         
+        try {
+            
+            super.conectar();
+            Collection<Autor> autores = em.createQuery("SELECT a FROM Autor a ").getResultList();
+            
+            if(autores.isEmpty())
+                throw new Exception("No se encontraron autores");
+            
+            super.desconectar();
+            return autores;
+            
+        } catch (Exception e) {
+            throw e;
+        }finally{
+            super.desconectar();
+        }
+        
+    }
     
 }

@@ -7,6 +7,8 @@ package libreria.entidades;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
@@ -17,6 +19,7 @@ import javax.persistence.Id;
 public class Editorial implements Serializable{
     
     @Id
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nombre;
     private Boolean alta;
@@ -24,11 +27,19 @@ public class Editorial implements Serializable{
     public Editorial() {
     }
 
+    /*
     public Editorial(Integer id, String nombre, Boolean alta) {
         this.id = id;
         this.nombre = nombre;
         this.alta = alta;
     }
+*/
+
+    public Editorial(String nombre, Boolean alta) {
+        this.nombre = nombre;
+        this.alta = alta;
+    }
+    
 
     public Integer getId() {
         return id;

@@ -11,8 +11,17 @@ package libreria.servicios;
  */
 public class LibreriaServicio {
     
-    AutorServicio autorServ;
-    EditorialServicio editorialServ;
-    LibroServicio libroServ;
+    private final AutorServicio autorServ;
+    private final EditorialServicio editorialServ;
+    private final LibroServicio libroServ;
+
+    public LibreriaServicio() {
+        this.autorServ = new AutorServicio();
+        this.editorialServ = new EditorialServicio();
+        this.libroServ = new LibroServicio();
+    }
+    
+    
+    
     
 }
